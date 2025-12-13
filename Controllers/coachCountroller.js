@@ -1,19 +1,12 @@
 const coachModel = require("../Models/coach");
 const sendSuccessfulApplicationEmail = require("../Services/Nodemailer/sendSuccessfulApplicationEmail");
+const sendSuccessfullEmailToAdmin = require("../Services/Nodemailer/sendSuccessfullEmailToAdmin");
 
 const createCoach = async (req, res) => {
     const {fullname, email} = req.body
     // const file = req.file
 
     try {
-        // if(!req.file || !req.file.path){
-        //     return res.status(400).json({
-        //         status: 'error',
-        //         message: 'file upload failed or missing'
-        //     })
-        // }
-
-        // const coach = await coachModel.create({...req.body, cv: file});
         const coach = await coachModel.create(req.body);
 
         if(!coach){
@@ -26,12 +19,13 @@ const createCoach = async (req, res) => {
         const userFirstName = fullname.split(' ')[0]
 
         await sendSuccessfulApplicationEmail(email, userFirstName)
+        await sendSuccessfullEmailToAdmin(email, userFirstName)
 
         return res.status(201).json({
             status: 'success',
             message: 'application sent successfully',
             data: coach
-        })  
+        })        
 
     } catch (error) {
         console.log(error);        
@@ -40,7 +34,7 @@ const createCoach = async (req, res) => {
 
 const getCoach = async (req, res) => {
     try {
-        const coach = await coachModel.find()
+        const coach = await coachModel.find().sort({createdAt: -1});
 
         if(!coach){
             return res.status(500).json({
