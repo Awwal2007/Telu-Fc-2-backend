@@ -6,7 +6,6 @@ const createCoach = async (req, res) => {
     const {fullname, email} = req.body
     const files = req.files;
     
-    
     try {
         if (!req.files?.cv || !req.files?.applicationLetter || !req.files?.passportPhoto) {
             return res.status(400).json({

@@ -14,12 +14,12 @@ const coachSchema = new mongoose.Schema({
     },
     gender: {
       type: String,
-      enum: ["Male", "Female"],
+    //   enum: ["Male", "Female"],
         default: "Male"
     },
     maritalStatus: {
       type: String,
-      enum: ["Single", "Married", "Other"],
+    //   enum: ["Single", "Married", "Other"],
       default: "Single"
     },
     nationality: String,
@@ -65,6 +65,7 @@ const coachSchema = new mongoose.Schema({
     yearsExperience: {
       type: Number,
       min: 0,
+      default: 0
     },
     previousClubs: String,
     achievements: String,
@@ -78,12 +79,12 @@ const coachSchema = new mongoose.Schema({
     },
     workWithYouths: {
       type: String,
-      enum: ["Yes", "No"],
+    //   enum: ["Yes", "No"],
       default: "No"
     },
     workUnderPressure: {
       type: String,
-      enum: ["Yes", "No"],
+    //   enum: ["Yes", "No"],
       default: "No"
     },
 
@@ -92,10 +93,10 @@ const coachSchema = new mongoose.Schema({
     ========================== */
     availability: {
       type: String,
-      enum: ["Full Time", "Part Time"],
+    //   enum: ["Full Time", "Part Time"],
 
     },
-    expectedSalary: Number,
+    expectedSalary: {type: Number, default: 0},
     startDate: Date,
 
     /* =========================
@@ -133,7 +134,7 @@ const coachSchema = new mongoose.Schema({
 
     status:{
         type: String,
-        enum: ["pending", "approved", "rejected"],
+        // enum: ["pending", "approved", "rejected"],
         default: "pending"
     },  
 
