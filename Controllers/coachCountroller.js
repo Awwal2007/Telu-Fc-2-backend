@@ -34,7 +34,7 @@ const createCoach = async (req, res) => {
 
 const getCoach = async (req, res) => {
     try {
-        const coach = await coachModel.find().sort({createdAt: -1});
+        const coach = await coachModel.find();
 
         if(!coach){
             return res.status(500).json({
