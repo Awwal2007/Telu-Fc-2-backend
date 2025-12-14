@@ -8,7 +8,7 @@ const {
     deleteNewsById
 } = require('../Controllers/newsController');
 
-const uploadNewsImages = require("../Config/multer");
+const {uploadNewsImages} = require("../Config/multer");
 const isLoggedIn = require('../Middlewares/isLoggedIn');
 
 newsRouter.get("/", getAllNews);

@@ -4,10 +4,29 @@ const sendSuccessfullEmailToAdmin = require("../Services/Nodemailer/sendSuccessf
 
 const createCoach = async (req, res) => {
     const {fullname, email} = req.body
-    // const file = req.file
-
+    const files = req.files;
+    
+    
     try {
-        const coach = await coachModel.create(req.body);
+        if (!req.files?.cv || !req.files?.applicationLetter || !req.files?.passportPhoto) {
+            return res.status(400).json({
+                status: "error",
+                message: "Required documents missing"
+            });
+        }
+
+        const coach = await coachModel.create({...req.body,
+            cv: files?.cv?.[0]?.path,
+            applicationLetter: files?.applicationLetter?.[0]?.path,
+            passportPhoto: files?.passportPhoto?.[0]?.path,
+            certificates: [
+                files?.certificate1?.[0]?.path,
+                files?.certificate2?.[0]?.path,
+                files?.certificate3?.[0]?.path,
+                files?.certificate4?.[0]?.path,
+                files?.certificate5?.[0]?.path,
+            ].filter(Boolean)
+        });
 
         if(!coach){
             return res.status(500).json({
@@ -16,7 +35,8 @@ const createCoach = async (req, res) => {
             })
         }
 
-        const userFirstName = fullname.split(' ')[0]
+        const userFirstName = fullname?.split(" ")[0] || "Applicant";
+
 
         await sendSuccessfulApplicationEmail(email, userFirstName)
         await sendSuccessfullEmailToAdmin(email, userFirstName)
@@ -36,14 +56,14 @@ const getCoach = async (req, res) => {
     try {
         const coach = await coachModel.find();
 
-        if(!coach){
+        if (coach.length === 0) {
             return res.status(500).json({
                 status: 'error',
                 message: 'coach application not found'
             })
         }
 
-        return res.status(201).json({
+        return res.status(200).json({
             status: 'success',
             message: 'coach application fetch successfully',
             data: coach
