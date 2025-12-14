@@ -31,7 +31,8 @@ const createCoach = async (req, res) => {
         if(!coach){
             return res.status(500).json({
                 status: 'error',
-                message: 'application not sent'
+                message: 'application not sent',
+                data: []
             })
         }
 
@@ -59,7 +60,8 @@ const getCoach = async (req, res) => {
         if (coach.length === 0) {
             return res.status(500).json({
                 status: 'error',
-                message: 'coach application not found'
+                message: 'coach application not found',
+                data: []
             })
         }
 
@@ -74,7 +76,36 @@ const getCoach = async (req, res) => {
     }
 }
 
+const approveCoach = async (req, res) => {
+    const { id } = req.params; // Destructure the ID from params
+    const {status} = req.body; // Expecting the new status from request body
+
+
+    try {
+        // Find the coach by ID and update the status
+        const coach = await coachModel.findByIdAndUpdate(
+            id,
+            { status: status }, 
+            { new: true } // Return the updated document
+        );
+
+        if (!coach) {
+            return res.status(404).json({ message: "Coach not found", data: [] });
+        }
+
+        res.status(200).json({
+            message: `Coach status updated to ${status}`,
+            coach
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+};
+
+
 module.exports = {
     createCoach,
-    getCoach
+    getCoach,
+    approveCoach
 }
