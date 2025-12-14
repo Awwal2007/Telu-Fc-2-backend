@@ -5,7 +5,7 @@ const cloudinary = require("./cloudinary");
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: "Iwo-Blogs",
+    folder: "Telu-Blogs",
     allowed_formats: ["png", "jpg", "gif"],
   },
 });
