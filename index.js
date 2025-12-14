@@ -27,7 +27,7 @@ app.listen(500, ()=>{
     console.log('listen to port 500');    
 })
 //Routes
-app.get("/", (req, res)=>{res.send("Welcome to Iwo Website Api version 1.0")})
+app.get("/", (req, res)=>{res.send("Welcome to Telu Fc Api version 1.0")})
 
 
 app.use("/api/news", newsRouter);

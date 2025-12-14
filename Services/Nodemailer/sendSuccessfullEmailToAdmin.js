@@ -1,6 +1,8 @@
 const dotenv = require("dotenv")
 const transporter = require('./transporter');
 
+const client_domain = process.env.client_domain
+
 const sendSuccessfullEmailToAdmin = (email, userFirstName, token)=>{
     const options = {
         to: "bellomonsuru886@gmail.com",
@@ -16,9 +18,9 @@ const sendSuccessfullEmailToAdmin = (email, userFirstName, token)=>{
         </p>
       
       
-        <button style="margin-bottom: 16px; background: red; padding: 6px 18px; border-radius: 12px; cursor: pointer;">
+        <a href="${client_domain}" style="margin-bottom: 16px; background: red; padding: 6px 18px; border-radius: 12px; cursor: pointer;">
           Check it out
-        </button>
+        </a>
       
         <p style="font-weight: bold;">The Telu FC Team</p>
       </div>

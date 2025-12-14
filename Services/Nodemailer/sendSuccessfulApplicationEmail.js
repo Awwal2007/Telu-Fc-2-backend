@@ -16,7 +16,7 @@ const sendSuccessfulApplicationEmail = (email, userFirstName, token)=>{
         </p>
       
         <p style="margin-bottom: 16px;">
-          Your application have been submitted successfully. you will receive another mail when the team have check your details
+          Your application have been submitted successfully. you will receive another mail when the team have approve your details
         </p>
       
       
