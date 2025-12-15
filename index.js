@@ -21,7 +21,8 @@ const clientDomain = process.env.client_domain
 app.use(cors({
   origin: [
     'https://telu-club.vercel.app',
-    'http://localhost:5173'
+    'http://localhost:5173',
+    'https://telufootballclub.com'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
