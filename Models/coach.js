@@ -22,6 +22,11 @@ const coachSchema = new mongoose.Schema({
     //   enum: ["Single", "Married", "Other"],
       default: "Single"
     },
+    otherMaritalStatus: {
+      type: String,
+    //   enum: ["Single", "Married", "Other"],
+      default: "Single"
+    },
     nationality: String,
     state: String,
     lga: String,
@@ -37,6 +42,7 @@ const coachSchema = new mongoose.Schema({
     },
     nextOfKin: String,
     nextOfKinPhone: String,
+    nextOfKinRelationship: String,
 
     /* =========================
        SECTION B: Position
@@ -56,7 +62,8 @@ const coachSchema = new mongoose.Schema({
       type: [String],
     },
     otherCertification: String,
-    issuingBody: String,
+    institutionAttended: String,
+    courseOfStudy: String,
     yearObtained: String,
 
     /* =========================
