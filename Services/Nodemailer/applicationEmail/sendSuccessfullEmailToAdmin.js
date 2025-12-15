@@ -5,7 +5,7 @@ const client_domain = process.env.client_domain;
 
 const sendSuccessfulEmailToAdmin = (email, userFirstName, token) => {
   const options = {
-    to: "bellomonsuru886@gmail.com",
+    to: "telufciwo@gmail.com",
     subject: "New Coach Application – TELU FC",
     from: "TELU FC <no-reply@telufc.com>",
     replyTo: "no-reply@telufc.com",

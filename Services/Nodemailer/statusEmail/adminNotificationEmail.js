@@ -6,7 +6,7 @@ const adminNotificationEmail = ( applicantEmail, applicantName, status
   const client_domain = process.env.client_domain
 
   const options = {
-    to: "bellomonsuru886@gmail.com",
+    to: "telufciwo@gmail.com",
     subject: `Coach Application ${isApproved ? "Approved" : "Rejected"} – TELU FC`,
     from: "TELU FC System <no-reply@telufc.com>",
     html: `

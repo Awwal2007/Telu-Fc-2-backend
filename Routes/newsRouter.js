@@ -8,7 +8,7 @@ const {
     deleteNewsById
 } = require('../Controllers/newsController');
 
-const {uploadNewsImages} = require("../Config/multer");
+const {uploadNewsFiles} = require("../Config/multer");
 const isLoggedIn = require('../Middlewares/isLoggedIn');
 
 newsRouter.get("/", getAllNews);
@@ -18,7 +18,7 @@ newsRouter.delete("/:id", isLoggedIn, deleteNewsById);
 newsRouter.post(
     "/",
     isLoggedIn,
-    uploadNewsImages.fields([
+    uploadNewsFiles.fields([
         { name: "mainImage", maxCount: 1 },
         { name: "image1", maxCount: 1 },
         { name: "image2", maxCount: 1 },
