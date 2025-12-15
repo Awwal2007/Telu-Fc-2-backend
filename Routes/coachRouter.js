@@ -1,6 +1,6 @@
 const express = require('express')
 const coachRouter = express.Router()
-const {createCoach, getCoach, approveCoach} = require('../Controllers/coachCountroller')
+const {createCoach, getCoach, deleteCoach, changeCoachStatus} = require('../Controllers/coachCountroller')
 const { uploadCoachFiles } = require('../Config/multer')
 
 coachRouter.post('/', uploadCoachFiles.fields([
@@ -16,7 +16,8 @@ coachRouter.post('/', uploadCoachFiles.fields([
 , createCoach)
 
 coachRouter.get('/', getCoach)
-coachRouter.patch('/approve/:id', approveCoach)
+coachRouter.put('/change/status/:id', changeCoachStatus)
+coachRouter.delete('/delete/:id', deleteCoach)
 
 
 module.exports = coachRouter

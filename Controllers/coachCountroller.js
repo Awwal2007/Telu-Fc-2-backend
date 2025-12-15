@@ -1,6 +1,8 @@
 const coachModel = require("../Models/coach");
-const sendSuccessfulApplicationEmail = require("../Services/Nodemailer/sendSuccessfulApplicationEmail");
-const sendSuccessfullEmailToAdmin = require("../Services/Nodemailer/sendSuccessfullEmailToAdmin");
+const adminApplicationStatusEmailToUser = require("../Services/Nodemailer/statusEmail/adminApplicationStatusEmailToUser");
+const sendSuccessfulApplicationEmail = require("../Services/Nodemailer/applicationEmail/sendSuccessfulApplicationEmail");
+const sendSuccessfullEmailToAdmin = require("../Services/Nodemailer/applicationEmail/sendSuccessfullEmailToAdmin");
+const adminNotificationEmail = require("../Services/Nodemailer/statusEmail/adminNotificationEmail");
 
 const createCoach = async (req, res) => {
     const {fullname, email} = req.body
@@ -75,10 +77,11 @@ const getCoach = async (req, res) => {
     }
 }
 
-const approveCoach = async (req, res) => {
+const changeCoachStatus = async (req, res) => {
     const { id } = req.params; // Destructure the ID from params
     const {status} = req.body; // Expecting the new status from request body
-
+    console.log(status);
+    
 
     try {
         // Find the coach by ID and update the status
@@ -92,19 +95,53 @@ const approveCoach = async (req, res) => {
             return res.status(404).json({ message: "Coach not found", data: [] });
         }
 
+        const info = await coachModel.findById(id)
+        const {fullname, email } = info
+        console.log(info);
+        
+
+        const userFirstName = fullname?.split(" ")[0] || "Applicant";
+
+        await adminApplicationStatusEmailToUser(email, userFirstName, status)
+        await adminNotificationEmail(email, userFirstName, status)
+
         res.status(200).json({
+            status: "success",
             message: `Coach status updated to ${status}`,
             coach
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server error", error: error.message });
     }
 };
+
+
+const deleteCoach = async (req, res) => {
+    const { id } = req.params
+    
+    try {
+        const coach = await coachModel.findByIdAndDelete(id)
+
+        if(!coach){
+            return res.status(404).json({
+                message: 'Coach not found', 
+                status: "error" 
+            });
+        }
+
+        res.status(200).json({
+            status: "success",
+            message: "Coach deleted Successfully"
+        })
+    } catch (error) {
+        console.log(error);        
+    }
+}
 
 
 module.exports = {
     createCoach,
     getCoach,
-    approveCoach
+    changeCoachStatus,
+    deleteCoach
 }
