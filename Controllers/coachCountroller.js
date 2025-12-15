@@ -3,56 +3,64 @@ const adminApplicationStatusEmailToUser = require("../Services/Nodemailer/status
 const sendSuccessfulApplicationEmail = require("../Services/Nodemailer/applicationEmail/sendSuccessfulApplicationEmail");
 const sendSuccessfullEmailToAdmin = require("../Services/Nodemailer/applicationEmail/sendSuccessfullEmailToAdmin");
 const adminNotificationEmail = require("../Services/Nodemailer/statusEmail/adminNotificationEmail");
+const uploadToSupabase = require("../Utils/uploadToSupabase");
 
 const createCoach = async (req, res) => {
-    const {fullname, email} = req.body
-    const files = req.files;
-    
-    try {
-        if (!req.files?.cv || !req.files?.applicationLetter || !req.files?.passportPhoto) {
-            return res.status(400).json({
-                status: "error",
-                message: "Required documents missing"
-            });
-        }
+  const { fullname, email } = req.body;
+  const files = req.files;
 
-        const coach = await coachModel.create({...req.body,
-            cv: files?.cv?.[0]?.path,
-            applicationLetter: files?.applicationLetter?.[0]?.path,
-            passportPhoto: files?.passportPhoto?.[0]?.path,
-            certificates: [
-                files?.certificate1?.[0]?.path,
-                files?.certificate2?.[0]?.path,
-                files?.certificate3?.[0]?.path,
-                files?.certificate4?.[0]?.path,
-                files?.certificate5?.[0]?.path,
-            ].filter(Boolean)
-        });
-
-        if(!coach){
-            return res.status(500).json({
-                status: 'error',
-                message: 'application not sent',
-                data: []
-            })
-        }
-
-        const userFirstName = fullname?.split(" ")[0] || "Applicant";
-
-
-        await sendSuccessfulApplicationEmail(email, userFirstName)
-        await sendSuccessfullEmailToAdmin(email, userFirstName)
-
-        return res.status(201).json({
-            status: 'success',
-            message: 'application sent successfully',
-            data: coach
-        })        
-
-    } catch (error) {
-        console.log(error);        
+  try {
+    if (!files?.cv || !files?.applicationLetter || !files?.passportPhoto) {
+      return res.status(400).json({
+        status: "error",
+        message: "Required documents missing",
+      });
     }
-}
+
+    const cvUrl = await uploadToSupabase(files.cv[0], "cv");
+    const letterUrl = await uploadToSupabase(files.applicationLetter[0], "letters");
+    const passportUrl = await uploadToSupabase(files.passportPhoto[0], "photos");
+
+    const certificateFiles = [
+        files?.certificate1?.[0],
+        files?.certificate2?.[0],
+        files?.certificate3?.[0],
+        files?.certificate4?.[0],
+        files?.certificate5?.[0],
+    ].filter(Boolean);
+
+    const certificateUrls = await Promise.all(
+        certificateFiles.map(file => uploadToSupabase(file, "certificates"))
+    );
+
+    const coach = await coachModel.create({
+      ...req.body,
+      cv: cvUrl,
+      applicationLetter: letterUrl,
+      passportPhoto: passportUrl,
+      certificates: certificateUrls,
+    });
+
+    const userFirstName = fullname?.split(" ")[0] || "Applicant";
+
+    await sendSuccessfulApplicationEmail(email, userFirstName);
+    await sendSuccessfullEmailToAdmin(email, userFirstName);
+
+    return res.status(201).json({
+      status: "success",
+      message: "application sent successfully",
+      data: coach,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "Server error",
+    });
+  }
+};
+
+
 
 const getCoach = async (req, res) => {
     try {
