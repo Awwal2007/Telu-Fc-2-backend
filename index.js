@@ -18,7 +18,14 @@ require("./Config/connectToDb");
 
 const clientDomain = process.env.client_domain
 
-app.use(cors())
+app.use(cors({
+  origin: [
+    'https://telu-club.vercel.app',
+    'http://localhost:5173'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(morgan("dev"))
