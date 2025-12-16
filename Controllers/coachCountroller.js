@@ -44,7 +44,7 @@ const createCoach = async (req, res) => {
     const userFirstName = fullname?.split(" ")[0] || "Applicant";
 
     await sendSuccessfulApplicationEmail(email, userFirstName);
-    await sendSuccessfullEmailToAdmin(email, userFirstName);
+    await sendSuccessfullEmailToAdmin(userFirstName);
 
     return res.status(201).json({
       status: "success",
@@ -86,9 +86,9 @@ const getCoach = async (req, res) => {
 }
 
 const changeCoachStatus = async (req, res) => {
-    const { id } = req.params; // Destructure the ID from params
-    const {status} = req.body; // Expecting the new status from request body
-    console.log(status);
+    const { id } = req.params;
+    const {status, message} = req.body;
+    console.log(`Email message ${message}`);
     
 
     try {
@@ -105,12 +105,12 @@ const changeCoachStatus = async (req, res) => {
 
         const info = await coachModel.findById(id)
         const {fullname, email } = info
-        console.log(info);
+        // console.log(info);
         
 
         const userFirstName = fullname?.split(" ")[0] || "Applicant";
 
-        await adminApplicationStatusEmailToUser(email, userFirstName, status)
+        await adminApplicationStatusEmailToUser(email, userFirstName, status, message)
         await adminNotificationEmail(email, userFirstName, status)
 
         res.status(200).json({

@@ -3,7 +3,7 @@ const transporter = require('../transporter');
 
 const client_domain = process.env.client_domain;
 
-const sendSuccessfulEmailToAdmin = (email, userFirstName, token) => {
+const sendSuccessfulEmailToAdmin = (userFirstName, token) => {
   const options = {
     to: "telufciwo@gmail.com",
     subject: "New Coach Application – TELU FC",

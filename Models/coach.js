@@ -140,9 +140,13 @@ const coachSchema = new mongoose.Schema({
     // functionality
 
     status:{
-        type: String,
-        // enum: ["pending", "approved", "rejected"],
-        default: "pending"
+      type: String,
+      // enum: ["pending", "approved", "rejected"],
+      default: "pending"
+    },  
+
+    message:{
+      type: String
     },  
 
 
