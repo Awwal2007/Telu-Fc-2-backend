@@ -8,6 +8,7 @@ const newsRouter = require('./Routes/newsRouter');
 const authRouter = require('./Routes/authRouter');
 const facebookRouter = require('./Routes/facebookRouter');
 const coachRouter = require('./Routes/coachRouter');
+const playerRouter = require('./Routes/playerRouter');
 dotenv.config()
 
 require("./Config/connectToDb");
@@ -42,6 +43,7 @@ app.use("/api/news", newsRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/facebook", facebookRouter);
 app.use("/api/coach", coachRouter);
+app.use("/api/player", playerRouter);
 
 app.use(express.json())
 

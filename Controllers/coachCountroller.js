@@ -88,7 +88,7 @@ const getCoach = async (req, res) => {
 const changeCoachStatus = async (req, res) => {
     const { id } = req.params;
     const {status, message} = req.body;
-    console.log(`Email message ${message}`);
+    // console.log(`Email message ${message}`);
     
 
     try {
