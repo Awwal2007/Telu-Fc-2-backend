@@ -100,7 +100,7 @@ const changeCoachStatus = async (req, res) => {
         );
 
         if (!coach) {
-            return res.status(404).json({ message: "Coach not found", data: [] });
+            return res.status(404).json({ status: "error", message: "Coach not found", data: [] });
         }
 
         const info = await coachModel.findById(id)
