@@ -56,6 +56,11 @@ const playerSchema = new mongoose.Schema(
       required: true,
     },
 
+    photo: {
+      type: String,
+      required: true
+    },
+
     /* ======================
        PLAYER DETAILS
     ====================== */

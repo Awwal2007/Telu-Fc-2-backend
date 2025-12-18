@@ -1,37 +1,65 @@
-const playerModel = require('../Models/player')
+const playerModel = require('../Models/player');
+const uploadToSupabase = require('../Utils/uploadToSupabase');
 
-const createPlayer = async (req, res) => {
-    const {email} = req.body
-    
+const createPlayer = async (req, res, next) => {
   try {
-    const excistingPlayer = await playerModel.findOne({email})
+    const { email } = req.body;
+    const file = req.file;
+    
 
-    if(excistingPlayer){
-      return res.status(402).json({
+    // Validate email
+    if (!email) {
+      return res.status(400).json({
         status: "error",
-        message: "Email already exists"
-      })
+        message: "Email is required",
+      });
     }
 
-    const player = await playerModel.create(req.body);
+    // Check if email exists
+    const existingPlayer = await playerModel.findOne({ email });
+    if (existingPlayer) {
+      return res.status(409).json({
+        status: "error",
+        message: "Email already exists",
+      });
+    }
+
+    // Check if file exists
+    if (!file) {
+      return res.status(400).json({
+        status: "error",
+        message: "Profile photo is required",
+      });
+    }
+
+
+    const imageUrl = await uploadToSupabase(file, "photo")
+
+    // Create player
+    const player = await playerModel.create({
+      ...req.body,
+      photo: imageUrl, 
+    });
 
     if(!player){
-      return res.status(401).json({
+      return res.status(500).json({
         status: "error",
-        message: "Player not created"
+        message: "Failed to create player"
       })
     }
 
-    res.status(201).json({
+    return res.status(201).json({
       status: "success",
-      message: 'Player registered successfully',
+      message: "Player registered successfully",
       data: player,
     });
 
   } catch (error) {
-    console.log(error);    
+    console.error(error);
+    next()
   }
 };
+
 
 const getPlayer = async (req, res) => {
   try {
