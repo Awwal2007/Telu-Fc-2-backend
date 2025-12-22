@@ -47,6 +47,10 @@ const playerApplicationSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  internationalPassport: {
+    type: String,
+    required: true
+  },
 
   // Football Background
   previousClub: String,
