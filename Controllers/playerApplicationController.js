@@ -25,19 +25,23 @@ const createPlayerApplication = async (req, res) => {
       strongestAbility,
       healthConditions,
       joinClub,
-      screening
+      screening,
+      nextOfKinName,
+      nextOfKinPhone,
+      nextOfKinRelationship,
+      injury
     } = req.body;
 
     const playerPhotoUrl = req.file ? req.file.path : null;
 
-    // const existingPlayer = await PlayerApplication.find({email})
+    const existingPlayer = await PlayerApplication.findOne({email})
 
-    // if(existingPlayer){
-    //     return res.status(500).json({
-    //         status: "error",
-    //         message: "Email already exists"
-    //     })
-    // }
+    if(existingPlayer){
+        return res.status(500).json({
+            status: "error",
+            message: "Email already exists"
+        })
+    }
 
     const application = await PlayerApplication.create({
       fullName,
@@ -46,6 +50,10 @@ const createPlayerApplication = async (req, res) => {
       phone,
       email,
       address,
+      nextOfKinName,
+      nextOfKinPhone,
+      nextOfKinRelationship,
+      injury,
       previousClub,
       currentClub,
       competitions: Array.isArray(competitions)

@@ -35,6 +35,18 @@ const playerApplicationSchema = new mongoose.Schema({
   playerPhotoUrl: {
     type: String
   },
+  nextOfKinName: {
+    type: String,
+    required: true
+  },
+  nextOfKinPhone: {
+    type: Number,
+    required: true
+  },
+  nextOfKinRelationship: {
+    type: String,
+    required: true
+  },
 
   // Football Background
   previousClub: String,
@@ -52,6 +64,7 @@ const playerApplicationSchema = new mongoose.Schema({
     enum: ["Left", "Right"]
   },
   strongestAbility: String,
+  injury: String,
 
   // Health
   healthConditions: String,
