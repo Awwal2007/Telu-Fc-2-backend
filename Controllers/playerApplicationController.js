@@ -29,7 +29,8 @@ const createPlayerApplication = async (req, res) => {
       nextOfKinName,
       nextOfKinPhone,
       nextOfKinRelationship,
-      injury
+      injury,
+      internationalPassport
     } = req.body;
 
     const playerPhotoUrl = req.file ? req.file.path : null;
@@ -54,6 +55,7 @@ const createPlayerApplication = async (req, res) => {
       nextOfKinPhone,
       nextOfKinRelationship,
       injury,
+      internationalPassport,
       previousClub,
       currentClub,
       competitions: Array.isArray(competitions)
