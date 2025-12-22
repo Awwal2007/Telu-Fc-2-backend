@@ -77,6 +77,11 @@ const playerApplicationSchema = new mongoose.Schema({
   readyForScreening: {
     type: Boolean,
     required: true
+  },
+  status: {
+    type: String,
+    required: true,
+    default: "Pending"
   }
 }, {
   timestamps: true
