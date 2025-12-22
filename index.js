@@ -9,6 +9,7 @@ const authRouter = require('./Routes/authRouter');
 const facebookRouter = require('./Routes/facebookRouter');
 const coachRouter = require('./Routes/coachRouter');
 const playerRouter = require('./Routes/playerRouter');
+const playerApplicationRouter = require('./Routes/playerApplicationRouter');
 dotenv.config()
 
 require("./Config/connectToDb");
@@ -19,15 +20,7 @@ require("./Config/connectToDb");
 
 const clientDomain = process.env.client_domain
 
-app.use(cors({
-  origin: [
-    'https://telu-club.vercel.app',
-    'http://localhost:5173',
-    'https://telufootballclub.com'
-  ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true,
-}));
+app.use(cors());
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(morgan("dev"))
@@ -44,6 +37,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/facebook", facebookRouter);
 app.use("/api/coach", coachRouter);
 app.use("/api/player", playerRouter);
+app.use("/api/player-application", playerApplicationRouter);
 
 app.use(express.json())
 
