@@ -78,6 +78,10 @@ const playerApplicationSchema = new mongoose.Schema({
     type: Boolean,
     required: true
   },
+  readyToSignContract: {
+    type: Boolean,
+    required: true
+  },
   readyForScreening: {
     type: Boolean,
     required: true

@@ -25,6 +25,7 @@ const createPlayerApplication = async (req, res) => {
       strongestAbility,
       healthConditions,
       joinClub,
+      signContract,
       screening,
       nextOfKinName,
       nextOfKinPhone,
@@ -59,10 +60,10 @@ const createPlayerApplication = async (req, res) => {
       previousClub,
       currentClub,
       competitions: Array.isArray(competitions)
-        ? competitions
-        : competitions
-        ? [competitions]
-        : [],
+      ? competitions
+      : competitions
+      ? [competitions]
+      : [],
       managerName,
       managerContact,
       position,
@@ -70,6 +71,7 @@ const createPlayerApplication = async (req, res) => {
       strongestAbility,
       healthConditions,
       readyToJoin: joinClub === "Yes",
+      readyToSignContract: signContract === "Yes",
       readyForScreening: screening === "Yes",
       playerPhotoUrl
     });
