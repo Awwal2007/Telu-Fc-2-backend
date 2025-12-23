@@ -3,7 +3,8 @@ const playerApplicationRouter = express.Router();
 const {
   createPlayerApplication,
   getPlayerApplications,
-  deletePlayerApplication
+  deletePlayerApplication,
+  changePlayerStatus
 } = require('../Controllers/playerApplicationController');
 const { uploadNewsImages } = require('../Config/multer');
 
@@ -12,5 +13,6 @@ playerApplicationRouter.post('/', uploadNewsImages.single("playerPhoto"), create
 
 playerApplicationRouter.get('/', getPlayerApplications);
 playerApplicationRouter.delete('/:id', deletePlayerApplication);
+playerApplicationRouter.put('/:id', changePlayerStatus);
 
 module.exports = playerApplicationRouter;

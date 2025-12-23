@@ -150,6 +150,44 @@ const getPlayerApplications = async (req, res) => {
   }
 };
 
+
+const changePlayerStatus = async (req, res) => {
+  const { id } = req.params;
+  const {status, message} = req.body;
+  
+
+  try {
+      // Find the player by ID and update the status
+      const player = await playerModel.findByIdAndUpdate(
+          id,
+          { status: status }, 
+          { new: true } // Return the updated document
+      );
+
+      if (!player) {
+        return res.status(404).json({ status: "error", message: "Player not found", data: [] });
+      }
+
+      const info = await PlayerApplication.findById(id)
+      const {fullname, email } = info
+      // console.log(info);
+      
+
+      const userFirstName = fullname?.split(" ")[0] || "Applicant";
+
+      // await adminApplicationStatusEmailToUser(email, userFirstName, status, message)
+      // await adminNotificationEmail(email, userFirstName, status)
+
+      res.status(200).json({
+          status: "success",
+          message: `Player status updated to ${status}`,
+          player
+      });
+  } catch (error) {
+      console.error(error);
+  }
+};
+
 /**
  * DELETE PLAYER APPLICATION
  * DELETE /api/player-application/:id
@@ -184,5 +222,6 @@ const deletePlayerApplication = async (req, res) => {
 module.exports = {
     getPlayerApplications,
     deletePlayerApplication,
-    createPlayerApplication 
+    createPlayerApplication,
+    changePlayerStatus
 };
