@@ -29,7 +29,7 @@ const createHeroImage = async (req, res, next) => {
 
 const getAllHeroImage = async (req, res, next)=>{
     const { category } = req.query;
-    console.log(category);
+    // console.log(category);
     
     try {
          // Build query object

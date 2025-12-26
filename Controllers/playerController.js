@@ -63,7 +63,7 @@ const createPlayer = async (req, res, next) => {
 
 const getPlayer = async (req, res) => {
   try {
-    const player = await playerModel.find();
+    const player = await playerModel.find().sort({createdAt: -1});
     if(!player){
         return res.status(404).json({
             status : "error",

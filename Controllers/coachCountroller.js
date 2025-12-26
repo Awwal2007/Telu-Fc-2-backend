@@ -64,7 +64,7 @@ const createCoach = async (req, res) => {
 
 const getCoach = async (req, res) => {
     try {
-        const coach = await coachModel.find();
+        const coach = await coachModel.find().sort({ createdAt: -1 });
 
         if (coach.length === 0) {
             return res.status(500).json({
